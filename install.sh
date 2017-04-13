@@ -6,7 +6,7 @@ readonly E_RUN_AS_ROOT='1'
 sudo -s
 
 # Check if root
-if [ $EUID != '0' ]; then
+if test "$(id -u)" -ne '0'; then
    echo "ERROR: The \"${SCRIPT_NAME}\" script must be run with root priviliges." 1>&2
    exit "$E_RUN_AS_ROOT"
 fi
@@ -37,7 +37,8 @@ curl -L https://bootstrap.saltstack.com | sh
 
 ### Install SaltStack configuration
 mkdir -p /etc/salt/
-cp --backup=numbered ./salt/{master,minion} /etc/salt/
+cp --backup=numbered ./salt/master /etc/salt/
+cp --backup=numbered ./salt/minion /etc/salt/
 mkdir -p /srv/salt/
 cp --backup=numbered ./salt/sls/* /srv/salt/
 #### Enable/start SlatStack
@@ -48,7 +49,8 @@ systemctl start salt-minion.service
 systemctl enable salt-minion.service
 
 #### Accept key
-for ((SWITCH=1; SWITCH == 1;;))
+SWITCH='1'
+while test "$SWITCH" -eq 1 
 do
   salt-key --accept=MaterA --yes
   salt-key --list accepted | grep MasterA
