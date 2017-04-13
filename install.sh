@@ -1,6 +1,5 @@
 #!/bin/sh
 # Relies on clean Ubuntu 16.04
-# Script name
 readonly SCRIPT_NAME="$(basename "$0")"
 # Exit codes
 readonly E_RUN_AS_ROOT='1'
@@ -19,10 +18,10 @@ apt-get install curl
 ## 3. Install Docker
 curl --ssl -L https://get.docker.com/ | sh
 
-### Enable socket
+### Enable Docker socket
 systemctl enable docker.socket
 
-### 3.a For Ubuntu 16.04: Temporarely install Docker-Compose as a container (because it have ver. >1.6 and easy to remember to change after)
+### 3.a For Ubuntu 16.04: Temporarely install Docker-Compose as a container (because we going to have ver. >1.6 which is required for Version 2)
 curl --ssl -L https://github.com/docker/compose/releases/download/1.8.1/run.sh > /usr/local/bin/docker-compose
 
 #### Do proper rights:
@@ -34,8 +33,7 @@ ls -la /usr/local/bin/docker-compose # -rwxr-x--- 1 root docker *** /usr/local/b
 
 ## 4. Install SaltStack
 curl -o /tmp/bootstrap-salt.sh -L https://bootstrap.saltstack.com
-sh bootstrap-salt.sh -M # Means "also master"
-
+sh /tmp/bootstrap-salt.sh -M -P -A 127.0.0.1 -i MasterA  # Means "also master"
 
 ### Install SaltStack configuration
 mkdir -p /etc/salt/
@@ -43,20 +41,23 @@ cp --backup=numbered ./salt/master /etc/salt/
 cp --backup=numbered ./salt/minion /etc/salt/
 mkdir -p /srv/salt/
 cp --backup=numbered ./salt/sls/* /srv/salt/
+
 #### Enable/start SlatStack
+systemctl stop salt-master.service
 systemctl start salt-master.service
 systemctl enable salt-master.service
 
+systemctl stop salt-minion.service
 systemctl start salt-minion.service
 systemctl enable salt-minion.service
 
 #### Accept key
-SWITCH='1'
-while test "$SWITCH" -eq 1 
+RESULT=1
+while test "$RESULT" -ne '0' # Watch for key until it accepted and Zero returned
 do
-  salt-key --accept=MaterA --yes
+  salt-key --accept=MasterA --yes
   salt-key --list accepted | grep MasterA
-  SWITCH="$?"
+  RESULT="$?"
 done
 
 ## Deploy the rest of infrastructure
