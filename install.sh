@@ -42,7 +42,7 @@ cp --backup=numbered ./salt/minion /etc/salt/
 mkdir -p /srv/salt/
 cp --backup=numbered ./salt/sls/* /srv/salt/
 
-#### Enable/start SlatStack
+#### Stop/Enable/Start SlatStack
 systemctl stop salt-master.service
 systemctl start salt-master.service
 systemctl enable salt-master.service
@@ -60,5 +60,13 @@ do
   RESULT="$?"
 done
 
-## Deploy the rest of infrastructure
+#### Wait for Master-Minion get ready
+RESULT=1
+while test "$RESULT" -ne '0' # Wait till Minion runs a commands and Zero returned
+do
+  salt --failhard --verbose --timeout=60 'MasterA' test.ping
+  RESULT="$?"
+done
+
+## 5. Now deploy the rest of infrastructure with SaltStack
 salt 'MasterA' state.highstate
