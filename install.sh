@@ -1,11 +1,11 @@
 #!/bin/sh
 # Relies on clean Ubuntu 16.04
+# Script name
+readonly SCRIPT_NAME="$(basename "$0")"
 # Exit codes
 readonly E_RUN_AS_ROOT='1'
-## 1. Enter permanent root
-sudo -s
 
-# Check if root
+## 1. Check if root
 if test "$(id -u)" -ne '0'; then
    echo "ERROR: The \"${SCRIPT_NAME}\" script must be run with root priviliges." 1>&2
    exit "$E_RUN_AS_ROOT"
@@ -33,7 +33,9 @@ chmod o-rwx /usr/local/bin/docker-compose
 ls -la /usr/local/bin/docker-compose # -rwxr-x--- 1 root docker *** /usr/local/bin/docker-compose*
 
 ## 4. Install SaltStack
-curl -L https://bootstrap.saltstack.com | sh
+curl -o /tmp/bootstrap-salt.sh -L https://bootstrap.saltstack.com
+sh bootstrap-salt.sh -M # Means "also master"
+
 
 ### Install SaltStack configuration
 mkdir -p /etc/salt/
