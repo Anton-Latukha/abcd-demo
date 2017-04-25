@@ -1,0 +1,39 @@
+version: '2'
+# Compose-file for demo infrastructure
+# Maintainer: anton.latukha+docke@gmail.com
+
+services:
+  nginx:
+    image: nginx:alpine
+    volumes_from:
+      - html_data:ro
+    ports:
+      - 80:80
+    
+  html_data:
+      build:
+        context: ./HTMLDataCont
+      volumes:
+        - nxHTML:/usr/share/nginx/html
+  
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_ROOT_PASSWORD=verysecretpassword
+      # - MYSQL_ALLOW_EMPTY_PASSWORD=yes # for access problem testing, also comment MYSQL_ROOT_PASSWORD
+    volumes_from:
+      - mysql_init_data:ro
+      - html_data:rw
+  
+  mysql_init_data:
+      build:
+        context: ./initDBCont
+      volumes:
+        - mysqlInit:/docker-entrypoint-initdb.d:ro # Put initialization input here
+        - initDB:/initDB:ro # Additional files for initDB process
+
+volumes:
+  nxHTML:
+  mysqlInit:
+  initDB:
+  

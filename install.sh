@@ -1,4 +1,6 @@
 #!/bin/sh
+## Solving chicken and an egg problem. Hot to get SaltStack infrastructure on a clean system. - With a script.
+## Using shell Docker installation as a much more simpler solution. In Salt, as it is going to be more hustle. To add Docker formula to Salt and then also new composer through elegant hack, then to do it through shell once. And then manage already installed Docker.
 # Relies on clean Ubuntu 16.04
 readonly SCRIPT_NAME="$(basename "$0")"
 # Exit codes
