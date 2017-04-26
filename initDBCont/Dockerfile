@@ -7,5 +7,4 @@
 FROM tianon/true
 COPY ./initDB /initDB
 COPY ./initDB.sh /docker-entrypoint-initdb.d/
-COPY ./processDB.sh /docker-entrypoint-initdb.d/
-RUN chmod o+w /usr/share/nginx/html
+#COPY ./processDB.sh /docker-entrypoint-initdb.d/

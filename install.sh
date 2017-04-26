@@ -20,8 +20,9 @@ apt-get install curl
 ## 3. Install Docker
 curl --ssl -L https://get.docker.com/ | sh
 
-### Enable Docker socket
-systemctl enable docker.socket
+### Enable/start Docker service
+systemctl start docker.service
+systemctl enable docker.service
 
 ### 3.a For Ubuntu 16.04: Temporarily install Docker-Compose as a container (because we going to have ver. >1.6 which is required for Version 2, and SaltStack)
 curl --ssl -L https://github.com/docker/compose/releases/download/1.8.1/run.sh > /usr/local/bin/docker-compose

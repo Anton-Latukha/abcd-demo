@@ -1,39 +1,58 @@
-version: '2'
+version: '3'
 # Compose-file for demo infrastructure
 # Maintainer: anton.latukha+docke@gmail.com
 
 services:
+# Webserver serves static on host port 80
   nginx:
     image: nginx:alpine
-    volumes_from:
-      - html_data:ro
+    volumes:
+      - nxHTML:/usr/share/nginx/html:ro
     ports:
       - 80:80
-    
-  html_data:
-      build:
-        context: ./HTMLDataCont
-      volumes:
-        - nxHTML:/usr/share/nginx/html
+
+#   Leaving official nginx image immutable, while having a possibility of population HTML on build process
+# html_data:
+#    build:
+#      context: ./HTMLDataCont
+#    volumes:
+#      - nxHTML:rw
+
+
+# Application that connects to database, makes a request and forms HTML
+  go_app:
+    build:
+      context: ./goApp
+    volumes:
+      - nxHTML:/usr/share/nginx/html:rw
+    depends_on:
+      - mysql
+    links:
+      - mysql
   
   mysql:
     image: mysql:5
     environment:
       - MYSQL_ROOT_PASSWORD=verysecretpassword
-      # - MYSQL_ALLOW_EMPTY_PASSWORD=yes # for access problem testing, also comment MYSQL_ROOT_PASSWORD
-    volumes_from:
-      - mysql_init_data:ro
-      - html_data:rw
-  
+      # - MYSQL_ALLOW_EMPTY_PASSWORD=yes    # Only if/for access testing
+    volumes:
+      - mysqlInit:/docker-entrypoint-initdb.d:ro
+      - initDB:/initDB:ro
+    expose:
+      - 3306
+#    ports:
+#      - 3306:3306    # To publish DB, TODO (make without it)
+
+#   Leaving official mysql image immutable, while having a possibility of populating initialization of DB on build process
   mysql_init_data:
       build:
         context: ./initDBCont
       volumes:
-        - mysqlInit:/docker-entrypoint-initdb.d:ro # Put initialization input here
-        - initDB:/initDB:ro # Additional files for initDB process
+        - mysqlInit:/docker-entrypoint-initdb.d:rw    # Initialization input here
+        - initDB:/initDB:rw   # Additional files for initDB process
 
 volumes:
   nxHTML:
-  mysqlInit:
-  initDB:
+  mysqlInit:    # Initialization input here
+  initDB:   # Additional files for initDB process
   

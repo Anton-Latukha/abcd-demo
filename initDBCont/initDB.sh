@@ -1,3 +1,3 @@
 #!/bin/sh
 cd /initDB
-mysql -u root -pverysecretpassword < employees.sql
+mysql --user root --password='verysecretpassword' < employees.sql
