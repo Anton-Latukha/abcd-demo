@@ -9,6 +9,9 @@ $ git clone https://github.com/Anton-Latukha/abcd-demo.git
 $ cd abcd-demo
 # sh ./install.sh
 ```
+That is all.
+
+Sources is mostly commented, you can check them out.
 
 ### Salt and Docker/Docker-Compose
 From official Salt formula: (1)[https://github.com/saltstack-formulas/docker-formula#docker-compose-ng]
