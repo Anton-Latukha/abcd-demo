@@ -80,5 +80,6 @@ done
 
 echo 'Minion is ready.'
 
-## 5. Now everything is ready to deploy the rest of infrastructure with SaltStack
-salt 'MasterA' state.highstate
+## 5. Now everything is ready to deploy the rest of infrastructure
+
+docker-compose up --force-recreate --build --remove-orphans -d --no-deps go_app

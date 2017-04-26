@@ -1,8 +1,14 @@
 # abc-demo
 Good day, this is repository that builds demo infrastructure.
+![Here is image of infrastructure](./infrastructure.svg "This is a brushstroke.")
 
 
-docker-compose up --force-recreate --build --remove-orphans
+Usage:
+```bash
+$ git clone https://github.com/Anton-Latukha/abcd-demo.git
+$ cd abcd-demo
+# sh ./install.sh
+```
 
 ### Salt and Docker/Docker-Compose
 From official Salt formula: (1)[https://github.com/saltstack-formulas/docker-formula#docker-compose-ng]
@@ -22,4 +28,4 @@ Also official Salt:
 
 As we can see, SaltStack does not fully implement Docker API still. So level-up Docker infrastructure to Salt level is not a good idea.
 
-But it is convenient to use Docker through Salt targeting and commands to work with Docker sources. And use modules, function whenever it is handy.
+It is convenient to use Docker through Salt targeting and commands to work with Docker sources. And use modules, function whenever it is handy.
