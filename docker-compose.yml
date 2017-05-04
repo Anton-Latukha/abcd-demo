@@ -38,10 +38,10 @@ services:
     volumes:
       - mysqlInit:/docker-entrypoint-initdb.d:ro
       - initDB:/initDB:ro
-    expose:
-      - 3306
-#    ports:
-#      - 3306:3306    # To publish DB, TODO (make without it)
+#    expose:
+#      - 3306
+    ports:
+      - 3306:3306    # To publish DB, TODO (make without it)
 
 #   Leaving official mysql image immutable, while having a possibility of populating initialization of DB on build process
   mysql_init_data:
