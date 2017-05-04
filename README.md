@@ -1,4 +1,4 @@
-# abc-demo
+# Demo
 Good day, this is repository that builds demo infrastructure.
 ![Here is image of infrastructure](./infrastructure.svg "This is a brushstroke.")
 
