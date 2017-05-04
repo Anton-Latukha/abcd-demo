@@ -1,6 +1,6 @@
 # Demo
 Good day, this is repository that builds demo infrastructure.
-![Here is image of infrastructure](./infrastructure.svg "This is a brushstroke.")
+![Here is image of infrastructure](./infrastructure.png "This is a brushstroke.")
 
 
 Usage:
