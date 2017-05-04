@@ -4,7 +4,7 @@ This is repository that builds demo infrastructure.
 
 ![This is original SVG](./infrastructure.svg "This is a brushstroke.")
 
-For deployment on Ubuntu Server 16.04.
+For deployment on clean Ubuntu Server 16.04.
 
 Usage:
 ```bash
