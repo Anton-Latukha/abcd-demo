@@ -13,7 +13,7 @@ if test "$(id -u)" -ne '0'; then
 fi
 
 ## 2. Update the system, install curl
-ENV DEBIAN_FRONTEND noninteractive
+DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get upgrade -y
 apt-get install -y curl
