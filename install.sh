@@ -37,7 +37,7 @@ ls -la /usr/local/bin/docker-compose    # -rwxr-x--- 1 root docker *** /usr/loca
 
 ## 4. Install SaltStack
 curl -o /tmp/bootstrap-salt.sh -L https://bootstrap.saltstack.com
-sh /tmp/bootstrap-salt.sh -M -P -A 127.0.0.1 -i MasterA  # Means "also master"
+sh /tmp/bootstrap-salt.sh -M -P -A 127.0.0.1 -i MasterA   # '-M' means "also master", '-A' - master location
 
 : '
 ### Install SaltStack configuration
