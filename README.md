@@ -1,6 +1,7 @@
 # Demo
 This is repository that builds demo infrastructure.
 ![Here is image of infrastructure](./infrastructure.png "This is a brushstroke.")
+
 ![This is original SVG](./infrastructure.svg "This is a brushstroke.")
 
 For deployment on Ubuntu Server 16.04.
