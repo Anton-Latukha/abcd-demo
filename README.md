@@ -6,9 +6,11 @@ This is repository that builds demo infrastructure.
 
 For deployment on clean Ubuntu Server 16.04.
 
+Uses a [Test_DB](https://github.com/datacharmer/test_db) as a submodule.
+
 Usage:
 ```bash
-$ git clone https://github.com/Anton-Latukha/demo.git
+$ git clone --recursive https://github.com/Anton-Latukha/demo.git # NOTE: recursive option
 $ cd demo
 # sh ./install.sh
 ```
