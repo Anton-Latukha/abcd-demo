@@ -1,0 +1,3 @@
+[submodule "initDBCont/initDB"]
+    path = initDBCont/initDB
+    url = git://git.naquadah.org/google-maps.git

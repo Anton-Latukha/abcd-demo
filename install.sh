@@ -14,9 +14,9 @@ fi
 
 ## 2. Update the system, install curl
 DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get upgrade -y
-apt-get install -y curl
+apt update
+apt upgrade -y
+apt install -y ansible python curl
 
 ## 3. Install Docker
 curl --ssl -L https://get.docker.com/ | sh
@@ -37,7 +37,10 @@ ls -la /usr/local/bin/docker-compose    # -rwxr-x--- 1 root docker *** /usr/loca
 
 ## 4. Install SaltStack
 curl -o /tmp/bootstrap-salt.sh -L https://bootstrap.saltstack.com
-sh /tmp/bootstrap-salt.sh -M -P -A 127.0.0.1 -i MasterA   # '-M' means "also master", '-A' - master location
+sh /tmp/bootstrap-salt.sh -M -P -A 127.0.0.1 -i MasterA
+# '-M' - means "also master"
+# '-A' - master location
+# '-i' - minion id
 
 : '
 ### Install SaltStack configuration
@@ -84,3 +87,5 @@ echo 'Minion is ready.'
 ## 5. Now everything is ready to deploy the rest of infrastructure
 
 docker-compose up --force-recreate --build --remove-orphans
+cd ./ansible
+ansible ./demo.yaml ./inventory

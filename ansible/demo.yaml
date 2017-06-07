@@ -1,0 +1,52 @@
+---
+# ansible-playbook --syntax-check
+# ansible-lint playbook.yml
+# ansible-playbook playbook.yml --list-hosts
+# ansible-playbook playbook.yml -i inventory
+- hosts: demo_servers
+  remote_user:  pyro
+  become: yes # become_method: su -for sudoless
+  tasks:
+    - block:
+      - name: Netdata service
+        service:
+          name: netdata.service
+          state: started
+          enabled: yes
+      rescue:
+          #- hame: Install curl
+          #apt: name=curl state=installed
+        - name: Prepare for netdata
+          when: ansible_distribution == 'Ubuntu'
+          apt: name={{ item }} state=latest
+          with_items:
+            - zlib1g-dev
+            - uuid-dev
+            - libmnl-dev
+            - gcc
+            - make
+            - git
+            - autoconf
+            - autoconf-archive
+            - autogen
+            - automake
+            - pkg-config
+            - curl
+        - name: Git clone netdata
+          git:
+            repo: "https://github.com/firehol/netdata.git"
+            dest: /tmp/netdata
+            force: yes
+            depth: 1
+        - name: Install netdata
+          command: ./netdata-installer.sh --dont-start-it
+          args:
+            chdir: /tmp/netdata
+          notify:
+            - restart netdata
+  handlers:
+    - name: restart netdata
+      service:
+        name: netdata.service
+        state: restarted
+        enabled: yes
